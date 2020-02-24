@@ -1,6 +1,6 @@
-# nuxtplaysite
+# Ozy&#39;s Nuxt Play Site
 
-> Ozy&#39;s Nuxt Play Site, just my play-site, teaching myself a NuxtJS for our project, sometimes I called my self "Sir" for formality
+> Just my play-site, teaching myself a NuxtJS for our project, sometimes I called my self "Sir" for formality
 
 ## Build Setup
 
