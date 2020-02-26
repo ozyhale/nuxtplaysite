@@ -14,6 +14,9 @@
         <nuxt-link to="/routing">
           <span class="mainLink">Routing</span>
         </nuxt-link> | 
+        <nuxt-link to="/budgeting101">
+          <span class="mainLink">Budgeting 101</span>
+        </nuxt-link> | 
         <nuxt-link to="/about">
           <span class="mainLink">About</span>
         </nuxt-link> | 
