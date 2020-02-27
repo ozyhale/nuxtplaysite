@@ -1,3 +1,4 @@
+require('dotenv').config();
 
 export default {
   mode: 'universal',
@@ -35,13 +36,18 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/dotenv'
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-    'nuxt-buefy'
+    'nuxt-buefy',
+    '@nuxtjs/axios'
   ],
+  axios: {
+    baseURL: process.env.API_URL
+  },
   /*
   ** Build configuration
   */

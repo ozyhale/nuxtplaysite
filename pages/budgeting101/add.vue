@@ -2,7 +2,7 @@
   <div class="container">
     <form @submit.prevent="toggleShowItemModal(true, 'add')">
       <b-field horizontal label="Name">
-        <b-input custom-class="w-1/2" :ref="'name'"></b-input>
+        <b-input custom-class="w-1/2" :ref="'name'" v-model="name"></b-input>
       </b-field>
       <b-field horizontal><!-- Label left empty for spacing -->
         <div class="control">
@@ -35,12 +35,10 @@
       </b-field>
       <b-field horizontal><!-- Label left empty for spacing -->
         <div class="relative control w-1/2">
-          <b-button type="is-primary" class="absolute inset-y-0 right-0">Save</b-button>
+          <b-button type="is-primary" class="absolute inset-y-0 right-0" @click.prevent="saveList" :loading="loading" :disabled="loading">Save</b-button>
         </div>
       </b-field>
     </form>
-
-    
 
     <b-modal :active.sync="itemModalActive" :width="320" scroll="keep">
       <form @submit.prevent="saveItem">
@@ -76,11 +74,14 @@ export default {
 
       itemModalActive : false,
       modalHeader : 'Add',
+
+      loading : false,
       
       item : {
         name : "",
         cost : 0
       },
+
       table : {
         selected : null,
         columns : [
@@ -120,25 +121,27 @@ export default {
   methods: {
     toggleShowItemModal(toggle, action){
 
-      //add item
-      if(action == 'add'){
-        this.modalHeader = "Add";
-        this.item = {
-          name : "",
-          cost : 0
-        }
-      }else if(action == 'edit'){
-        this.modalHeader = "Edit";
-        this.item = this.table.selected
-      }
-
       this.itemModalActive = toggle;
-      let instance = this;
 
-      this.$nextTick().then(function (){
-        instance.$refs.itemName.$el.children[0].focus()
-      });
+      if(action !== undefined){
+        //add item
+        if(action == 'add'){
+          this.modalHeader = "Add";
+          this.item = {
+            name : "",
+            cost : 0
+          }
+        }else if(action == 'edit'){
+          this.modalHeader = "Edit";
+          this.item = this.table.selected
+        }
+        
+        let instance = this;
 
+        this.$nextTick().then(function (){
+          instance.$refs.itemName.$el.children[0].focus()
+        });
+      }
     },
     saveItem(){
 
@@ -159,8 +162,19 @@ export default {
         this.toggleShowItemModal(false);
       }
     },
-    save(){
+    async saveList(){
 
+      this.loading = true;
+
+      let prepareList = {
+        name : this.name,
+        list: this.list
+      }
+
+      const list = await this.$axios.$post('/budget_list.json', prepareList);
+      
+      this.loading = false;
+      this.$router.push("/budgeting101");
     }
   }
 }
